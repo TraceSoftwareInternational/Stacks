@@ -1,0 +1,13 @@
+[Unit]
+Description=sonarqube server
+Requires=docker.service
+After=docker.service
+
+[Service]
+WorkingDirectory=/home/Sonarqube
+Restart=always
+ExecStart=/usr/local/bin/docker-compose -f docker-compose.yml up
+ExecStop=/usr/local/bin/docker-compose -f docker-compose.yml stop
+
+[Install]
+WantedBy=default.target
