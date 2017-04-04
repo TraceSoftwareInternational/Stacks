@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+    db:
+        image: postgres:9.6-alpine
+        container_name: sonarqube-db
+        environment:
+            - POSTGRES_PASSWORD=sonar-dbpwd
+            - POSTGRES_USER=sonar-dbuser
+            - POSTGRES_DB=sonarqube
+        volumes:
+            - ./sonarqube-db:/var/lib/postgresql/data
+
+    sonarqube:
+        image: sonarqube:6.3-alpine
+        container_name: sonarqube
+        depends_on:
+            - db
+        environment:
+            - SONARQUBE_JDBC_URL=jdbc:postgresql://db/sonarqube
+            - SONARQUBE_JDBC_USERNAME=sonar-dbuser
+            - SONARQUBE_JDBC_PASSWORD=sonar-dbpwd
+        ports:
+            - 9000:9000
+            - 9092:9092
+
